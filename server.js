@@ -3,10 +3,16 @@ const app = express(); //this creates an instance of express
 const simpsons = require("./simpsons.json");
 const logging = require("./middleware/logging");
 const auth = require("./middleware/auth");
-const bodyParser = require("body-parser");
+
+simpsons.forEach((char, index) => (char.id = index + 1));
 
 // handle static file middleware
 app.use(express.static("public"));
+
+app.use((req, res, next) => {
+  req.simpsons = simpsons;
+  next();
+});
 
 //convert the body to json middleware
 app.use(express.json());

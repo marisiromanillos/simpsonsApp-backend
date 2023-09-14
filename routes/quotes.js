@@ -5,9 +5,8 @@ const router = express.Router(); //just importing router from express
 router.get("/", (req, res) => {
   console.log("quotes route");
   const { character, num } = req.query; //desctructuring
-  simpsons.forEach((char, index) => (char.id = index + 1));
 
-  let _simpsons = [...simpsons];
+  let _simpsons = [...req.simpsons]; // this means passing simpson from server.js
 
   //if specific character is asked for
   if (character) {
