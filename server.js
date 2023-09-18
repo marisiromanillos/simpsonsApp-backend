@@ -22,8 +22,7 @@ app.use("/delete", require("./routes/delete"));
 app.use("/add", require("./routes/add"));
 app.use("/update", require("./routes/update"));
 
-const port = process.env.PORT || 6001; // This is for the hosting company to see where the NODE app will run
-
+const port = process.env.PORT || 6001;
 app.listen(port, () => {
   console.log(`The server is running on port ${port}`);
-}); // we need to listen to the port
+});
