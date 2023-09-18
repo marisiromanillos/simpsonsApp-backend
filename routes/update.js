@@ -21,7 +21,7 @@ router.patch("/character/:id", (req, res) => {
   });
 
   // Check if user exists
-  if (indexOf < 0) {
+  if (indexOf === -1) {
     res.send({ status: 0, reason: "ID not found" });
     return;
   }

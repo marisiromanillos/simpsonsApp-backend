@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { genRandomString } = require("../utils/math");
 
 //add new character
 router.post("/character", (req, res) => {
@@ -19,12 +20,13 @@ router.post("/character", (req, res) => {
   const indexOf = req.simpsons.findIndex((item) => {
     return item.character === character || item.quote === quote;
   });
+
   if (indexOf > -1) {
     res.send({ status: 0, reason: "Duplicate Entry" });
   }
 
   req.simpsons.push({
-    id: Math.round(Math.random() * 100000),
+    id: genRandomString(16), //randomize ID value
     character,
     characterDirection,
     quote,
