@@ -1,31 +1,25 @@
 const express = require("express"); // importing express
 const app = express(); //this creates an instance of express
 const simpsons = require("./simpsons.json");
-const logging = require("./middleware/logging");
-const auth = require("./middleware/auth");
 
-simpsons.forEach((char, index) => (char.id = index + 1));
+// Adds ID to each character
+simpsons.forEach((item, index) => {
+  item.id = index + 1;
+});
 
-// handle static file middleware
-app.use(express.static("public"));
-
+//Middleware to make it available to all routes
 app.use((req, res, next) => {
   req.simpsons = simpsons;
   next();
 });
 
-//convert the body to json middleware
+//convert the body to json
 app.use(express.json());
 
-//logging middleware
-app.use(logging);
-
-// //API key validation middleware
-app.use(auth);
-
-//route middleware
-app.use("/quotes", require("./routes/quotes"));
-app.use("/", require("./routes/demo"));
+//routes
+app.use("/get", require("./routes/get"));
+app.use("/delete", require("./routes/delete"));
+app.use("/add", require("./routes/add"));
 
 const port = process.env.PORT || 6001; // This is for the hosting company to see where the NODE app will run
 
