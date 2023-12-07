@@ -3,6 +3,13 @@ const app = express(); //this creates an instance of express
 const cors = require("cors");
 const asyncMySql = require("./mysql/connection");
 const checkToken = require("./middleware/auth");
+const limiter = require("./middleware/limiter");
+const helmet = require("helmet");
+
+app.use(helmet());
+
+//limit login attempts
+app.use(limiter);
 
 //bring cors
 app.use(cors());
@@ -19,6 +26,7 @@ app.use(express.json());
 app.use("/character", checkToken, require("./routes/character"));
 app.use("/account", require("./routes/account"));
 
+//port
 const port = process.env.PORT || 6001;
 app.listen(port, () => {
   console.log(`The server is running on port ${port}`);

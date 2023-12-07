@@ -8,11 +8,11 @@ const {
   getById,
   updateCharacter,
 } = require("../mysql/queries");
+const helmet = require("helmet");
 
 //DELETE
 router.delete("/:id", async (req, res) => {
   const id = Number(req.params.id);
-
   //Check if ID is a Number
   if (Number.isNaN(id)) {
     res.send({ status: 0, reason: "Invalid ID" });
@@ -70,7 +70,7 @@ router.patch("/:id", async (req, res) => {
     return;
   }
 
-  const { character, characterDirection, quote, image } = req.body;
+  const { character, characterDirection, quote } = req.body;
   try {
     // For security, we have repetition
     if (character && typeof character === "string") {
@@ -84,7 +84,14 @@ router.patch("/:id", async (req, res) => {
       );
     }
     if (allowableDirections.includes(characterDirection)) {
-      await asyncMySql(updateCharacter("direction", characterDirection, id));
+      await asyncMySql(
+        updateCharacter(
+          "direction",
+          characterDirection,
+          id,
+          req.validatedUserId
+        )
+      );
     }
   } catch (error) {
     res.send({ status: 0, reason: error.sqlMessage });

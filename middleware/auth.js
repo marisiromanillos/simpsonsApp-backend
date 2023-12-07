@@ -5,8 +5,8 @@ const checkToken = async (req, res, next) => {
   const results = await asyncMySql(getIdByToken(req.headers.token));
 
   if (results.length > 0) {
-    //attach the token id to the request
-    req.validatedUserdId = results[0].user_id;
+    //attach token id to the request
+    req.validatedUserId = results[0].user_id;
     next();
     return;
   }

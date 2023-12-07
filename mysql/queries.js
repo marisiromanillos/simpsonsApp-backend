@@ -7,7 +7,7 @@ module.exports = {
   },
   deleteCharacter: (id, userId) => {
     return `DELETE FROM characters 
-                  WHERE id LIKE ${id} AND user_id LIKE ${userId};`;
+                  WHERE id = ${id} AND user_id = ${userId}`;
   },
   addCharacter: (character, quote, characterDirection, userId) => {
     return `INSERT INTO characters
@@ -18,30 +18,29 @@ module.exports = {
             "${characterDirection}", 
             "${userId}")`;
   },
-
   getById: (id) => {
     return `SELECT name, quote, 
             direction, image
                     FROM characters
-                         WHERE user_id = '${id}';`;
+                         WHERE user_id = '${id}'`;
   },
   updateCharacter: (key, value, id, userId) => {
     return `UPDATE characters SET ${key} = "${value}"
-    WHERE id LIKE "${id}" AND user_id LIKE ${userId} ;`;
+    WHERE id = ${id} AND user_id = ${userId}`;
   },
   checkUsersCreds: (email, sha256Password) => {
     return `SELECT id FROM users
-                  WHERE email LIKE "${email}"
-                          AND password LIKE "${sha256Password}";`;
+                  WHERE email = "${email}"
+                          AND password = "${sha256Password}"`;
   },
   addToken: (userId, token) => {
     return `INSERT INTO tokens
                 (user_id, token)
                     VALUES
-                     ("${userId}","${token}");`;
+                     ("${userId}","${token}")`;
   },
   getIdByToken: (token) => {
     return `SELECT user_id FROM tokens
-                WHERE token LIKE "${token}";`;
+                WHERE token = "${token}"`;
   },
 };
