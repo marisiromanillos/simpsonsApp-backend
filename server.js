@@ -1,15 +1,21 @@
 const express = require("express"); // importing express
 const app = express(); //this creates an instance of express
-const simpsons = require("./simpsons.json");
+const cors = require("cors");
+const asyncMySql = require("./mysql/connection");
+const checkToken = require("./middleware/auth");
+const limiter = require("./middleware/limiter");
+const helmet = require("helmet");
 
-// Adds ID to each character
-simpsons.forEach((item, index) => {
-  item.id = index + 1;
-});
+app.use(helmet());
 
-//Middleware to make it available to all routes
+//limit login attempts
+app.use(limiter);
+
+//bring cors
+app.use(cors());
+
 app.use((req, res, next) => {
-  req.simpsons = simpsons;
+  console.log("New Request");
   next();
 });
 
@@ -17,11 +23,10 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 //routes
-app.use("/get", require("./routes/get"));
-app.use("/delete", require("./routes/delete"));
-app.use("/add", require("./routes/add"));
-app.use("/update", require("./routes/update"));
+app.use("/character", checkToken, require("./routes/character"));
+app.use("/account", require("./routes/account"));
 
+//port
 const port = process.env.PORT || 6001;
 app.listen(port, () => {
   console.log(`The server is running on port ${port}`);
