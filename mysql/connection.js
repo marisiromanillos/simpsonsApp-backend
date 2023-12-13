@@ -1,11 +1,11 @@
 const mysql = require("mysql");
 
 const connection = mysql.createConnection({
-  user: "root",
-  password: "",
-  host: "localhost",
+  user: "mrbuildm_marisi_gr",
+  password: "wVA$B^-TfZ,_",
+  host: "s915.lon1.mysecurecloudhost.com",
   port: 3306,
-  database: "user",
+  database: "mrbuildm_demo-simpsons",
 });
 
 function asyncMySql(query) {
