@@ -100,9 +100,23 @@ router.patch("/:id", async (req, res) => {
 });
 
 // GET
-router.get("/", async (req, res) => {
+router.get("/:order", async (req, res) => {
+  const orderParams = ["ASC", "DESC"];
+
+  if (!orderParams.includes(req.params.order)) {
+    res.send("hacker");
+  }
+
+  let order = "";
+  if (req.params.order === "ASC") {
+    order === "ASC";
+  }
+  if (req.params.order === "DESC") {
+    order = "DESC";
+  }
+
   //ask SQL for the data
-  const results = await asyncMySql(getById(req.validatedUserdId));
+  const results = await asyncMySql(getById(order), [req.validatedUserdId]);
 
   if (results.length > 0) {
     res.send({ status: 1, results });

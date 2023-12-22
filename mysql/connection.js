@@ -1,16 +1,16 @@
 const mysql = require("mysql");
 
 const connection = mysql.createConnection({
-  user: "mrbuildm_marisi_gr",
-  password: "wVA$B^-TfZ,_",
-  host: "s915.lon1.mysecurecloudhost.com",
-  port: 3306,
-  database: "mrbuildm_demo-simpsons",
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE,
 });
 
-function asyncMySql(query) {
+function asyncMySql(query, params) {
   return new Promise((resolve, reject) => {
-    connection.query(query, (error, results) => {
+    connection.query(query, params, (error, results) => {
       if (error) {
         reject(error);
       }

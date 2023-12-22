@@ -1,46 +1,38 @@
 module.exports = {
   addUser: (email, password) => {
-    return `INSERT INTO users
-        (email, password)
-        VALUES
-        ("${email}", "${password}")`;
+    // Consider using parameterized queries to prevent SQL injection
+    return `INSERT INTO users (email, password) VALUES ('${email}', '${password}')`;
   },
   deleteCharacter: (id, userId) => {
-    return `DELETE FROM characters 
-                  WHERE id = ${id} AND user_id = ${userId}`;
+    // SQL query for deleting a character by ID and user ID
+    return `DELETE FROM characters WHERE id = ${id} AND user_id = ${userId}`;
   },
   addCharacter: (character, quote, characterDirection, userId) => {
-    return `INSERT INTO characters
-            (name, quote, direction, user_id)
-            VALUES
-            ("${character}", 
-            "${quote}", 
-            "${characterDirection}", 
-            "${userId}")`;
+    // SQL query for adding a character
+    return `INSERT INTO characters (name, quote, direction, user_id)
+            VALUES ('${character}', '${quote}', '${characterDirection}', '${userId}')`;
   },
-  getById: (id) => {
-    return `SELECT name, quote, 
-            direction, image
-                    FROM characters
-                         WHERE user_id = '${id}'`;
+  getById: (order) => {
+    // SQL query for getting characters by user ID with an order parameter
+    return `SELECT name, quote, direction, image
+            FROM characters
+            WHERE user_id = ?
+            ORDER BY name ${order}`; // Corrected the order by clause
   },
   updateCharacter: (key, value, id, userId) => {
-    return `UPDATE characters SET ${key} = "${value}"
-    WHERE id = ${id} AND user_id = ${userId}`;
+    // SQL query for updating a character's attribute by ID and user ID
+    return `UPDATE characters SET ${key} = '${value}' WHERE id = ${id} AND user_id = ${userId}`;
   },
-  checkUsersCreds: (email, sha256Password) => {
-    return `SELECT id FROM users
-                  WHERE email = "${email}"
-                          AND password = "${sha256Password}"`;
+  checkUsersCreds: () => {
+    // SQL query for checking user credentials
+    return `SELECT id FROM users WHERE email = ? AND password = ?`;
   },
   addToken: (userId, token) => {
-    return `INSERT INTO tokens
-                (user_id, token)
-                    VALUES
-                     ("${userId}","${token}")`;
+    // SQL query for adding a token for a user
+    return `INSERT INTO tokens (user_id, token) VALUES ('${userId}', '${token}')`;
   },
   getIdByToken: (token) => {
-    return `SELECT user_id FROM tokens
-                WHERE token = "${token}"`;
+    // SQL query for getting user ID by token
+    return `SELECT user_id FROM tokens WHERE token = '${token}'`;
   },
 };

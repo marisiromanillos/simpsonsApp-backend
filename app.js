@@ -1,3 +1,4 @@
+const dotenv = require("dotenv").config();
 const express = require("express"); // importing express
 const app = express(); //this creates an instance of express
 const cors = require("cors");
@@ -5,6 +6,7 @@ const asyncMySql = require("./mysql/connection");
 const checkToken = require("./middleware/auth");
 const limiter = require("./middleware/limiter");
 const helmet = require("helmet");
+const chalk = require("chalk");
 
 app.use(helmet());
 
@@ -15,7 +17,7 @@ app.use(limiter);
 app.use(cors());
 
 app.use((req, res, next) => {
-  console.log("New Request");
+  console.log(chalk.blue("New Request"));
   next();
 });
 
