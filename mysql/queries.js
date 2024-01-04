@@ -27,9 +27,17 @@ module.exports = {
     // SQL query for checking user credentials
     return `SELECT id FROM users WHERE email = ? AND password = ?`;
   },
-  addToken: (userId, token) => {
+  addToken: (userId, token, browserTempToken, emailTempToken) => {
     // SQL query for adding a token for a user
-    return `INSERT INTO tokens (user_id, token) VALUES ('${userId}', '${token}')`;
+    return `INSERT INTO tokens 
+                  (user_id, token, browser_temp_token, email_temp_token)
+                   VALUES ('${userId}', '${token}', '${browserTempToken}', '${emailTempToken}')`;
+  },
+  getTokenByBrowserEmail: (browserTempToken, emailTempToken) => {
+    return `SELECT token 
+           FROM tokens
+                  WHERE browser_temp_token = "${browserTempToken}"
+                        AND emailTempToken = "${emailTempToken}"`;
   },
   getIdByToken: (token) => {
     // SQL query for getting user ID by token

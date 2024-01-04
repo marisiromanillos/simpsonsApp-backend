@@ -3,7 +3,7 @@ const SibApiV3Sdk = require("sib-api-v3-sdk");
 const defaultClient = SibApiV3Sdk.ApiClient.instance;
 
 const apiKey = defaultClient.authentications["api-key"];
-apiKey.apiKey = ``;
+apiKey.apiKey = process.env.SIB_API_KEY;
 
 const send = (subject, htmlContent, to) => {
   const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
@@ -13,12 +13,12 @@ const send = (subject, htmlContent, to) => {
   sendSmtpEmail.subject = subject;
   sendSmtpEmail.htmlContent = htmlContent;
   sendSmtpEmail.sender = {
-    name: "sender name",
-    email: "marisiromanillos@gmail.com",
+    name: process.env.SIB_NAME,
+    email: process.env.SIB_SENDER_EMAIL,
   };
   sendSmtpEmail.replyTo = {
-    name: "sender name",
-    email: "marisiromanillos@gmail.com",
+    name: process.env.SIB_NAME,
+    email: process.env.SIB_SENDER_EMAIL,
   };
   sendSmtpEmail.to = to;
 
